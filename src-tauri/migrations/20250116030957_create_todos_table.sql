@@ -1,6 +1,6 @@
 -- Add migration script here
-CREATE TABLE todos (
-    id INTEGER PRIMARY KEY,
-    description TEXT,
+CREATE TABLE IF NOT EXISTS todos (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    description TEXT NOT NULL,
     status VARCHAR(30)
 );
