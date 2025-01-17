@@ -1,6 +1,8 @@
-use tauri::Manager;
 mod db;
+mod models;
+use tauri::Manager;
 use db::setup_db;
+
 struct AppState {
     db: db::Db,
 }
