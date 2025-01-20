@@ -18,7 +18,7 @@ const TodoList: React.FC = () => {
   }
 
   const validateTodo = async () => {
-    const errors = await todoValidator.validate(todoObject);
+    const errors = await todoValidator.init(todoObject);
     setError(errors)
   };
   validateTodo();
