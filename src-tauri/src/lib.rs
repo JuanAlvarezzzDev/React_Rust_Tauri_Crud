@@ -2,7 +2,7 @@ mod commands;
 mod db;
 mod models;
 mod store;
-use commands::todos::{delete_todo, get_todos, update_todo};
+use commands::todos::{delete_todo, get_todos, create_todo};
 use db::setup_db;
 use tauri::Manager;
 
@@ -12,7 +12,7 @@ pub fn run() {
         .plugin(tauri_plugin_opener::init())
         .invoke_handler(tauri::generate_handler![
             get_todos,
-            update_todo,
+            create_todo,
             delete_todo
         ])
         .setup(|app| {
