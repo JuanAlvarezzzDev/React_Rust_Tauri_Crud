@@ -16,3 +16,9 @@ pub struct Todo {
     pub description: String,
     pub status: TodoStatus,
 }
+#[derive(Debug, Serialize, Deserialize, TS)]
+#[ts(export, export_to = "../../src/models/")]
+pub struct TodoForCreate {
+    pub description: String,
+    pub status: TodoStatus,
+}
