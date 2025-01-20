@@ -1,4 +1,4 @@
-use crate::models::todo::Todo;
+use crate::models::todo::{Todo, TodoForCreate};
 use crate::store::AppState;
 use futures::TryStreamExt;
 use tauri::State;
@@ -15,11 +15,10 @@ pub async fn get_todos(state: State<'_, AppState>) -> Result<Vec<Todo>, String> 
 }
 
 #[tauri::command]
-pub async fn update_todo(state: State<'_, AppState>, todo: Todo) -> Result<(), String> {
+pub async fn create_todo(state: State<'_, AppState>, todo: TodoForCreate) -> Result<(), String> {
     let db = &state.db;
     sqlx
-        ::query("INSERT OR REPLACE INTO todos (id, description, status) VALUES (?1, ?2, ?3)")
-        .bind(todo.id)
+        ::query("INSERT INTO todos (description, status) VALUES (?1, ?2)")
         .bind(todo.description)
         .bind(todo.status)
         .execute(db).await
