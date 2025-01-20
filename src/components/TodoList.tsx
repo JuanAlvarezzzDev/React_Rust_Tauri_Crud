@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import type { Todo } from "../models/Todo";
+import { TodoForCreate } from "../models/TodoForCreate";
 
 const TodoList: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -14,9 +15,9 @@ const TodoList: React.FC = () => {
     }
   };
 
-  const updateTodo = async (todo: Todo) => {
+  const updateTodo = async (todo: TodoForCreate) => {
     try {
-      await invoke("update_todo", { todo });
+      await invoke("create_todo", { todo });
       fetchTodos();
     } catch (error) {
       console.error("Error updating todo:", error);
@@ -26,8 +27,7 @@ const TodoList: React.FC = () => {
   useEffect(() => {
     const initialize = async () => {
       await updateTodo({
-        id: 1,
-        description: "Haciendo Pruebas",
+        description: "TodoForCreate",
         status: "Complete",
       });
       await fetchTodos();
