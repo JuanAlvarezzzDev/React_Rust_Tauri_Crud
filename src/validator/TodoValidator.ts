@@ -10,7 +10,7 @@ export class TodoValidator{
     @IsEnum(TodoStatus, { message: "El estado debe ser 'Incomplete' o 'Complete'." })
     status!: TodoStatus;
 
-    async validate(object: object) {
+    async init(object: object) {
         const validator = new ValidateData();
         return validator.init(object, TodoValidator);
       }
