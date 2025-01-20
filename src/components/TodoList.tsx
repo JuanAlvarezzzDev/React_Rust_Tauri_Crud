@@ -2,9 +2,28 @@ import React, { useState, useEffect } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import type { Todo } from "../models/Todo";
 import { TodoForCreate } from "../models/TodoForCreate";
+import { TodoStatus } from "../models/TodoStatus";
+import { TodoValidator } from "../validator/TodoValidator";
+import { ValidationErrors } from "./ui/ValidationErrors";
+import { ValidationError } from "class-validator";
 
 const TodoList: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
+  const [error, setError] = useState<ValidationError[]>([])
+  const todoValidator = new TodoValidator()
+
+  const todoObject = {
+    description: "hola como e",
+    status: TodoStatus.Incomplete
+  }
+
+  const validateTodo = async () => {
+    const errors = await todoValidator.validate(todoObject);
+    setError(errors)
+  };
+  validateTodo();
+
+
 
   const fetchTodos = async () => {
     try {
@@ -25,18 +44,12 @@ const TodoList: React.FC = () => {
   };
 
   useEffect(() => {
-    const initialize = async () => {
-      await updateTodo({
-        description: "TodoForCreate",
-        status: "Complete",
-      });
-      await fetchTodos();
-    };
-
-    initialize();
+  fetchTodos()
   }, []);
 
-  return <div style={{ padding: "1rem" }}>{JSON.stringify(todos)}</div>;
+  return <div style={{ padding: "1rem" }}>{JSON.stringify(todos)}
+  <ValidationErrors errors={error} />
+  </div>;
 };
 
 export default TodoList;
